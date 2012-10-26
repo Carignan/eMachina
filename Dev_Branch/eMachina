@@ -1,0 +1,9 @@
+<NotepadPlus>
+    <Project name="eMachina">
+        <File name="PrintHeadCarriage.scad" />
+        <File name="rack_herringbone.scad" />
+        <File name="rack_simple.scad" />
+        <File name="XYMotorCoupler.scad" />
+        <File name="XYMotorMount.scad" />
+    </Project>
+</NotepadPlus>
