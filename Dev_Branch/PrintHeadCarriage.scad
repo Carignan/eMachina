@@ -21,9 +21,22 @@ module main()
 	//DRAW The plateform
 	translate ([0,0,0]) Plateform();
 
-	//Draw the smooth rod guides
-	translate([-5,58,0]) rotate([0,0,180]) HalfRail(PTotalHeight-1, 2);
-	translate([90,80,0]) rotate([0,0,90]) HalfRail(PTotalHeight+13, 2);
+	//Draw the smooth rod guide 1
+	translate([-5,58,0]) rotate([0,0,180]) HalfRail(PTotalHeight, 2);
+	
+	//Draw the smooth rod guide 2 and remove some material below it to save plastic
+	difference()
+	{
+		translate([90,80,0]) rotate([0,0,90]) HalfRail(PTotalHeight+17, 2);
+	
+		translate([27,60,PTotalHeight-1]) cube([68,70,5]) ;
+		translate([27,60,PTotalHeight-1]) rotate([0,-10,0])cube([35,50,5]) ;
+		translate([61,60,PTotalHeight-1+6]) rotate([0,10,0]) cube([35,50,5]) ;
+		translate([55,60,PTotalHeight-1]) cube([12,70,10]) ;
+	}
+	
+	translate([59,66,PTotalHeight-1]) cube([4,14,12]) ;
+	
 }
 
 
@@ -34,6 +47,7 @@ module Plateform()
 	PCenterX = 60;
 	PCenterY = 25;
 	ScrewDistance = 50;
+	HotEndHolderScrewDistance = 25;
 	
 	HoleA1X=PCenterX+ScrewDistance/2 ;
 	HoleA1Y=PCenterY;
@@ -50,6 +64,28 @@ module Plateform()
 	HoleC2X=RotateX(HoleA2X,PCenterX,HoleA2Y,PCenterY,-45);
 	HoleC2Y=RotateY(HoleA2X,PCenterX,HoleA2Y,PCenterY,-45);
 
+	
+	HEHoleA1X=PCenterX+HotEndHolderScrewDistance/2 ;
+	HEHoleA1Y=PCenterY;
+	HEHoleA2X=PCenterX-HotEndHolderScrewDistance/2 ;
+	HEHoleA2Y=PCenterY;
+
+	HEHoleB1X=RotateX(HEHoleA1X,PCenterX,HEHoleA1Y,PCenterY,22.5);
+	HEHoleB1Y=RotateY(HEHoleA1X,PCenterX,HEHoleA1Y,PCenterY,22.5);
+	HEHoleB2X=RotateX(HEHoleA2X,PCenterX,HEHoleA2Y,PCenterY,22,5);
+	HEHoleB2Y=RotateY(HEHoleA2X,PCenterX,HEHoleA2Y,PCenterY,22.5);
+
+	HEHoleC1X=RotateX(HEHoleA1X,PCenterX,HEHoleA1Y,PCenterY,-22.5);
+	HEHoleC1Y=RotateY(HEHoleA1X,PCenterX,HEHoleA1Y,PCenterY,-22.5);
+	HEHoleC2X=RotateX(HEHoleA2X,PCenterX,HEHoleA2Y,PCenterY,-22,5);
+	HEHoleC2Y=RotateY(HEHoleA2X,PCenterX,HEHoleA2Y,PCenterY,-22.5);
+
+	HEHoleD1X=RotateX(HEHoleA1X,PCenterX,HEHoleA1Y,PCenterY,90);
+	HEHoleD1Y=RotateY(HEHoleA1X,PCenterX,HEHoleA1Y,PCenterY,90);
+	HEHoleD2X=RotateX(HEHoleA2X,PCenterX,HEHoleA2Y,PCenterY,90);
+	HEHoleD2Y=RotateY(HEHoleA2X,PCenterX,HEHoleA2Y,PCenterY,90);
+
+	
 	
 	translate([5,5,0])
 	
@@ -75,7 +111,7 @@ module Plateform()
 		translate([HoleC2X,HoleC2Y,-1]) cylinder(h=PHeight+6,r=1.9); 		
 		
 		//Platform central Hole
-		translate([PCenterX,PCenterY,-1]) cylinder(h=PHeight+6,r=10); 		
+		translate([PCenterX,PCenterY,-1]) cylinder(h=PHeight+6,r=12); 		
 		
 		
 		//opening for cables 1
@@ -91,6 +127,17 @@ module Plateform()
 		//and holes for the fan/light adaptor
 		translate([PCenterX-50,PCenterY-10,-1]) cylinder(h=PHeight+2,r=1.9);
 		translate([PCenterX-50,PCenterY+10,-1]) cylinder(h=PHeight+2,r=1.9);
+		
+		// holes for hotEnd support screw heads , now you have plenty of option :)
+		translate([HEHoleB1X,HEHoleB1Y,-1]) cylinder(h=PHeight+6,r=4); 		
+		translate([HEHoleB2X,HEHoleB2Y,-1]) cylinder(h=PHeight+6,r=4); 		
+
+		translate([HEHoleC1X,HEHoleC1Y,-1]) cylinder(h=PHeight+6,r=4); 		
+		translate([HEHoleC2X,HEHoleC2Y,-1]) cylinder(h=PHeight+6,r=4); 		
+		
+		translate([HEHoleD1X,HEHoleD1Y,-1]) cylinder(h=PHeight+6,r=4); 		
+		translate([HEHoleD2X,HEHoleD2Y,-1]) cylinder(h=PHeight+6,r=4); 		
+
 
 	}
 }
@@ -104,7 +151,7 @@ function RotateY(x,xc,y,yc,theta) = sin(theta)*(x-xc) + cos(theta)*(y-yc) + yc;
 
 // Half rail Module
 //---------------------------------------------------------------
-// SplitFixType = 1 Screw, >1=nut;
+// SplitFixType = 1 Screw Head,  2+= 3mm nut;
 module HalfRail(BaseHeightRelative, SplitFixType)
 {
 OuterDia = 14;
@@ -119,6 +166,8 @@ translate([0,0,BaseHeight])
 			translate([0,0,0]) rotate([270,0,0]) cylinder(h=58,r=OuterDia);
 			sphere(OuterDia, $fn=100);
 			translate ([0,58,0]) sphere(OuterDia, $fn=100);
+
+			//Support block
 			translate ([-OuterDia,-10,-10-BaseHeight+10]) cube([OuterDia,78,BaseHeight]);
 		}
 		
@@ -126,38 +175,31 @@ translate([0,0,BaseHeight])
 		translate ([0,2,0])LM8UU();
 		translate ([0,32,0]) LM8UU();
 		translate ([0,-25,0]) 8mmRod(100);
-		translate ([0,-15,-OuterDia]) cube([15,100,50]);
+		translate ([0,-15,-OuterDia]) cube([15,100,50]);		
+		
 
 		//Draw the fixing holes
 		if ( SplitFixType == 1 )
 		{
 			translate([-20,-2,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,-2,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3, $fn=10);
+			translate([-24.5,-2,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=10);
 			translate([-20,-2,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,-2,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3, $fn=10);
-			translate([-20,29,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,29,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3, $fn=10);
-			translate([-20,29,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,29,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3, $fn=10);
+			translate([-24.5,-2,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=10);
 			translate([-20,60,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,60,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3, $fn=10);
+			translate([-24.5,60,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=10);
 			translate([-20,60,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,60,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3, $fn=10);
+			translate([-24.5,60,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=10);
 		}
 		else
 		{
 			translate([-20,-2,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,-2,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.1, $fn=6);
+			translate([-24.5,-2,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=6);
 			translate([-20,-2,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,-2,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.1, $fn=6);
-			translate([-20,29,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,29,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.1, $fn=6);
-			translate([-20,29,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,29,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.1, $fn=6);
+			translate([-24.5,-2,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=6);
 			translate([-20,60,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,60,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.1, $fn=6);
+			translate([-24.5,60,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=6);
 			translate([-20,60,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,60,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.1, $fn=6);
+			translate([-24.5,60,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=6);
 		}
 	}
 }
