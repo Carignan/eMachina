@@ -8,8 +8,8 @@ main();
 
 
 //Platforme Size
-PLenght=100;
-PWidth=75;
+PLenght=110;
+PWidth=80;
 PTotalHeight=5;
 PHeight = 3;
 
@@ -24,18 +24,13 @@ module main()
 	//Draw the smooth rod guide 1
 	translate([-5,58,0]) rotate([0,0,180]) HalfRail(PTotalHeight, 2);
 	
-	//Draw the smooth rod guide 2 and remove some material below it to save plastic
-	difference()
-	{
-		translate([90,80,0]) rotate([0,0,90]) HalfRail(PTotalHeight+17, 2);
+	//Draw the smooth rod guide 2 
+	translate([95,85,0]) rotate([0,0,90]) HalfRail(PTotalHeight+17, 2);
 	
-		translate([27,60,PTotalHeight-1]) cube([68,70,5]) ;
-		translate([27,60,PTotalHeight-1]) rotate([0,-10,0])cube([35,50,5]) ;
-		translate([61,60,PTotalHeight-1+6]) rotate([0,10,0]) cube([35,50,5]) ;
-		translate([55,60,PTotalHeight-1]) cube([12,70,10]) ;
-	}
+	//DRaw a side rod guide
+	//translate([-5,58,0]) rotate([0,0,180]) HalfRail(0, 1);
 	
-	translate([59,66,PTotalHeight-1]) cube([4,14,12]) ;
+	
 	
 }
 
@@ -44,7 +39,7 @@ module main()
 //----------------------------------------------------------------
 module Plateform()
 { 
-	PCenterX = 60;
+	PCenterX = 70;
 	PCenterY = 25;
 	ScrewDistance = 50;
 	HotEndHolderScrewDistance = 25;
@@ -99,19 +94,19 @@ module Plateform()
 
 		
 		//Platform extruder screw Hole
-		translate([HoleA1X,HoleA1Y,-1]) cylinder(h=PHeight+6,r=1.9); 		
-		translate([HoleA2X,HoleA2Y,-1]) cylinder(h=PHeight+6,r=1.9); 		
+		translate([HoleA1X,HoleA1Y,-1]) cylinder(h=PHeight+6,r=2.2); 		
+		translate([HoleA2X,HoleA2Y,-1]) cylinder(h=PHeight+6,r=2.2); 		
 
 		//Platform extruder screw Hole
-		translate([HoleB1X,HoleB1Y,-1]) cylinder(h=PHeight+6,r=1.9); 		
-		translate([HoleB2X,HoleB2Y,-1]) cylinder(h=PHeight+6,r=1.9); 		
+		translate([HoleB1X,HoleB1Y,-1]) cylinder(h=PHeight+6,r=2.2); 		
+		translate([HoleB2X,HoleB2Y,-1]) cylinder(h=PHeight+6,r=2.2); 		
 
 		//Platform extruder screw Hole
-		translate([HoleC1X,HoleC1Y,-1]) cylinder(h=PHeight+6,r=1.9); 		
-		translate([HoleC2X,HoleC2Y,-1]) cylinder(h=PHeight+6,r=1.9); 		
+		translate([HoleC1X,HoleC1Y,-1]) cylinder(h=PHeight+6,r=2.2); 		
+		translate([HoleC2X,HoleC2Y,-1]) cylinder(h=PHeight+6,r=2.2); 		
 		
 		//Platform central Hole
-		translate([PCenterX,PCenterY,-1]) cylinder(h=PHeight+6,r=12); 		
+		translate([PCenterX,PCenterY,-1]) cylinder(h=PHeight+6,r=19); 		
 		
 		
 		//opening for cables 1
@@ -129,6 +124,7 @@ module Plateform()
 		translate([PCenterX-50,PCenterY+10,-1]) cylinder(h=PHeight+2,r=1.9);
 		
 		// holes for hotEnd support screw heads , now you have plenty of option :)
+		/*
 		translate([HEHoleB1X,HEHoleB1Y,-1]) cylinder(h=PHeight+6,r=4); 		
 		translate([HEHoleB2X,HEHoleB2Y,-1]) cylinder(h=PHeight+6,r=4); 		
 
@@ -137,7 +133,7 @@ module Plateform()
 		
 		translate([HEHoleD1X,HEHoleD1Y,-1]) cylinder(h=PHeight+6,r=4); 		
 		translate([HEHoleD2X,HEHoleD2Y,-1]) cylinder(h=PHeight+6,r=4); 		
-
+*/
 
 	}
 }
@@ -155,7 +151,12 @@ function RotateY(x,xc,y,yc,theta) = sin(theta)*(x-xc) + cos(theta)*(y-yc) + yc;
 module HalfRail(BaseHeightRelative, SplitFixType)
 {
 OuterDia = 14;
+
 BaseHeight =  BaseHeightRelative/2 + OuterDia;
+
+
+HexNutHoleRadius = 3.5;
+ScrewHeadRadius = 3.9;
 
 translate([0,0,BaseHeight])
 
@@ -182,24 +183,24 @@ translate([0,0,BaseHeight])
 		if ( SplitFixType == 1 )
 		{
 			translate([-20,-2,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,-2,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=10);
+			translate([-24.5,-2,8.5]) rotate ([0,90,0]) cylinder(h=20, r=ScrewHeadRadius, $fn=10);
 			translate([-20,-2,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,-2,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=10);
+			translate([-24.5,-2,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=ScrewHeadRadius, $fn=10);
 			translate([-20,60,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,60,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=10);
+			translate([-24.5,60,8.5]) rotate ([0,90,0]) cylinder(h=20, r=ScrewHeadRadius, $fn=10);
 			translate([-20,60,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,60,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=10);
+			translate([-24.5,60,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=ScrewHeadRadius, $fn=10);
 		}
 		else
 		{
 			translate([-20,-2,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,-2,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=6);
+			translate([-24.5,-2,8.5]) rotate ([0,90,0]) cylinder(h=20, r=HexNutHoleRadius, $fn=6);
 			translate([-20,-2,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,-2,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=6);
+			translate([-24.5,-2,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=HexNutHoleRadius, $fn=6);
 			translate([-20,60,8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,60,8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=6);
+			translate([-24.5,60,8.5]) rotate ([0,90,0]) cylinder(h=20, r=HexNutHoleRadius, $fn=6);
 			translate([-20,60,-8.5]) rotate ([0,90,0]) cylinder(h=50, r=1.9, $fn=10);
-			translate([-24.5,60,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=3.9, $fn=6);
+			translate([-24.5,60,-8.5]) rotate ([0,90,0]) cylinder(h=20, r=HexNutHoleRadius, $fn=6);
 		}
 	}
 }
