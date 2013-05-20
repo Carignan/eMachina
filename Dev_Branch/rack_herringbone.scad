@@ -11,16 +11,18 @@
 
 
 pi=3.1415926535897932384626433832795;
-innerRadius=4.3;//shaft radius, in mm
+innerRadius=6.60/2;//shaft radius, in mm
 borders=2.5;//how thick should the borders around the central "shaft" be, in mm
 diametralPitch=12;
-numberOfTeeth=22;
+numberOfTeeth=30;
 pressureAngle=20*pi/180;
 centerAngle=25;//angle at center of teeth
 
 
 //example usage
 rack(innerRadius,borders,diametralPitch,numberOfTeeth,pressureAngle,centerAngle);
+
+//demo_gear([30,30,30],diametralPitch);
 
 
 
