@@ -11,7 +11,7 @@
 
 
 pi=3.1415926535897932384626433832795;
-innerRadius=6.60/2;//shaft radius, in mm
+innerRadius=6.76/2;//shaft radius, in mm
 borders=2.5;//how thick should the borders around the central "shaft" be, in mm
 diametralPitch=12;
 numberOfTeeth=30;
