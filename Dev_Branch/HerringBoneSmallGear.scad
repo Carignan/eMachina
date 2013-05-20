@@ -8,16 +8,29 @@
 include <MCAD/involute_gears.scad> 
 include <CaptiveScrewShaft.scad>
 
-
 centerAngle=25;//angle at center of teeth
 diametralPitch=12;
-demo_gear1();
 
+motorShaftDiam = 5.65;
+IdlerShaftDiam = 6.54;
 
-module demo_gear1(position,diametralPitch)
+difference () 
 {
-	wheelSize=12;
-	rotate([0,90,180])
+	union()
+	{
+		translate ([0,0,0]) CaptiveScrewShaft(ShaftDiam=25, ShaftBore = motorShaftDiam);
+		translate([0,0,10]) Gear();
+		translate ([0,0,23]) cylinder (h =7,r1=9,r2=12.5);
+		translate ([0,0,40]) rotate([0,180,180])  CaptiveScrewShaft(ShaftDiam=25, ShaftBore = IdlerShaftDiam);
+	}
+	
+}
+
+
+module Gear(position,diametralPitch)
+{
+	wheelSize=13;
+	rotate([0,0,180])
 	translate(position)
 	
 	union()
@@ -48,83 +61,3 @@ module demo_gear1(position,diametralPitch)
 }
 
 
-
-
-
-
-
-
-//Lower Shaft
-//CaptiveScrewShaft(ShaftDiam=32, ShaftHeight=10);
-
-//bevel Gear 1
-// translate([0,0,18+10])
-// rotate([180,0,0])
-// bevel_gear (
-	// number_of_teeth=11,
-	// cone_distance=50,
-	// face_width=20,
-	// outside_circular_pitch=700,
-	// pressure_angle=30,
-	// clearance = 0.2,
-	// backlash = 0,
-	// involute_facets=0 ,
-	// finish = -1);
-
-//HerringBone  positive 1
-
-//HerringBone negative 1
-
-//Involute Gear
-
-
-//UpperShaft
-
-// */
-
-
-// gear (
-    // number_of_teeth=11, 
-	// circular_pitch=700,
-	// gear_thickness = 12,
-	// rim_thickness = 12,
-	// hub_thickness = 12,
-	// hub_diameter = 12,
-	// twist=-12);
-
-// /* 
-// translate([0,0,0])
-// rotate([180,0,0])
-// bevel_gear (
-	// number_of_teeth=11,
-	// cone_distance=100,
-	// face_width=20,
-	// outside_circular_pitch=700,
-	// pressure_angle=30,
-	// clearance = 0.2,
-	// bore_diameter=1,
-	// gear_thickness = 12,
-	// backlash = 0,
-	// involute_facets=0,
-	// finish = -1);
- // */
-
-
-// /*
-// module gear (
-	// number_of_teeth=15,
-	// circular_pitch=false, diametral_pitch=false,
-	// pressure_angle=30,
-	// clearance = 0.2,
-	// gear_thickness=5,
-	// rim_thickness=8,
-	// rim_width=5,
-	// hub_thickness=10,
-	// hub_diameter=15,
-	// bore_diameter=5,
-	// circles=0,
-	// backlash=0,
-	// twist=0,
-	// involute_facets=0,
-	// flat=false)
-// 

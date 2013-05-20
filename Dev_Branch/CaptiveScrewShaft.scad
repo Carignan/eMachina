@@ -6,18 +6,8 @@
 //-------------------------------------------------------
 
 include <MCAD/nuts_and_bolts.scad>
- 
-//TEST  
-///CaptiveScrewShaft(ShaftDiam=70);
 
-module CaptiveScrewShaft   
-(
-	ShaftHeight = 10,
-	ShaftDiam = 20,  
-	ShaftBore = 5.25,
-	SetScrewDiam = 3.2,
-	NutSizemm = 3
-)
+module CaptiveScrewShaft (	ShaftHeight = 10, ShaftDiam = 20,  ShaftBore = 5.25, SetScrewDiam = 3.2, NutSizemm = 3 )
 {
 	$fn =20;	
 	SetScrewDistanceFromEdge = 3;//mm
@@ -49,3 +39,6 @@ module CaptiveScrewShaft
 		rotate([270,0,0]) cylinder (h =40,r= SetScrewDiam/2 );
 	}
 }
+
+
+
