@@ -205,34 +205,3 @@ translate([0,0,BaseHeight])
 	}
 }
 
-
-// Draw a LM8UU bearing
-// ---------------------------------------------------------------------
-module LM8UU()
-{
-	dia_off=.5;
-	long_off=.91;
-	color("Green") 
-	rotate([270,0,0]) translate([0,0,-long_off/2])
-	cylinder(h=24+long_off,r=7.5+dia_off);
-}
-
-// Draw a 608ZZ bearing
-// ---------------------------------------------------------------------
-module 608ZZ()
-{
-	dia_off=.5;
-	color("red")
-	rotate([270,0,0])
-	cylinder(h=7,r=11+dia_off);
-}
-
-//Draw a 8mm Rod
-// ---------------------------------------------------------------------
-module 8mmRod(Lenght)
-{
-	dia_off=.97;
-	color("blue")
-	rotate([270,0,0])
-	cylinder(h=Lenght,r=4+dia_off);
-}

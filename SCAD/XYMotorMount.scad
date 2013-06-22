@@ -1,51 +1,53 @@
-//X and Y Motor Mount
+//XYMotorMount.scad
+include<mcad/triangles.scad>;
 
+$fn=100;
+WallTickness = 4;
 
-//Nema17
-N17ScrewHoleSizeR = 1.8;
-N17ScrewHoleDistance = 31;
-N17Width =43.5;
-N17CenterHoleR = 22.5/2;
-RodHole=8.7/2;
+//the pully middle start at 19mm
+//the distance from the middle of the pully and the middle of the shat must be 42mm
 
-difference()
+//Rod Mount
+MidPulleyHeight = 19;
+DistanceMidPulleyToMidShaft = 42;
+MidShaftHeight = MidPulleyHeight + DistanceMidPulleyToMidShaft;
+TotalHeight = MidPulleyHeight + DistanceMidPulleyToMidShaft + WallTickness+6;
+
+difference () 
 {
-	cube([N17Width, N17Width, 3], center=true);
-	cylinder(h=4,r=N17CenterHoleR, center=true);
-	translate([N17ScrewHoleDistance/2,N17ScrewHoleDistance/2,-2], center=true) cylinder(h=4,r=N17ScrewHoleSizeR);
-	translate([-N17ScrewHoleDistance/2,N17ScrewHoleDistance/2,-2], center=true) cylinder(h=4,r=N17ScrewHoleSizeR);
-	translate([N17ScrewHoleDistance/2,-N17ScrewHoleDistance/2,-2], center=true) cylinder(h=4,r=N17ScrewHoleSizeR);
-	translate([-N17ScrewHoleDistance/2,-N17ScrewHoleDistance/2,-2], center=true) cylinder(h=4,r=N17ScrewHoleSizeR);
-}
-
-
-RodSupportWidth=10;
-SideWallWidth = 4;
-difference()
-{
-	hull()
+	union()
 	{
-		translate([-N17Width/2-SideWallWidth,N17Width/2,-1.5]) cube([N17Width+SideWallWidth*2,RodSupportWidth,40]);
-		translate([0,N17Width/2,N17Width/2]) rotate([270,0,0])  cylinder(h=RodSupportWidth+7,r=2);
-		translate([-5,N17Width/2,-1.5])   cube([10,RodSupportWidth+7,5]);
+		cube([42,TotalHeight,WallTickness]);
+		translate([42/2,MidShaftHeight,0]) cylinder (h = 15,r=10 ); 
+		rotate([0,270,0]) triangle(TotalHeight, 46, 4);
+		translate([-WallTickness,0,0]) cube([WallTickness,TotalHeight,WallTickness]);
+		translate([-WallTickness,0,0]) cube([WallTickness,WallTickness,42+WallTickness]);
+		
+		translate([42+WallTickness,0,0]) rotate([0,270,0]) triangle(TotalHeight, 46, 4);
+		translate([42,0,0]) cube([WallTickness,TotalHeight,WallTickness]);
+		translate([42,0,0]) cube([WallTickness,WallTickness,42+WallTickness]);
 	}
 
-	translate([0,N17Width/2+RodSupportWidth/2+5,-2] ) cylinder(h=90,r=RodHole);
+	translate([42/2,MidShaftHeight,2]) cylinder (h = 15,r=4.2 ); 
+	
+	translate([7, WallTickness+7,-1]) cylinder (h = WallTickness+2,r=2 ); 
+	translate([7, TotalHeight-16,-1]) cylinder (h = WallTickness+2,r=2 ); 
+	translate([42-7, WallTickness+7,-1]) cylinder (h = WallTickness+2,r=2 ); 
+	translate([42-7, TotalHeight-16,-1]) cylinder (h = WallTickness+2,r=2 ); 
 }
 
 
-
-//SideWall Left
-difference()
+//Motor mount
+difference () 
 {
-	translate([-N17Width/2-SideWallWidth,-N17Width/2,-1.5]) cube([SideWallWidth,N17Width+RodSupportWidth,40]);
-	translate([-N17Width/2-SideWallWidth-1,-N17Width/2,2]) rotate([41,0,0]) cube([SideWallWidth+1.1,N17Width+RodSupportWidth+5,45]);
-}
-
-
-//SideWall Right
-difference()
-{
-	translate([N17Width/2,-N17Width/2,-1.5]) cube([SideWallWidth,N17Width+RodSupportWidth,40]);
-	translate([N17Width/2-1,-N17Width/2,2]) rotate([41,0,0]) cube([SideWallWidth+1.1,N17Width+RodSupportWidth+5,45]);
-}
+	cube([42,WallTickness,42+WallTickness]);
+	translate([0,0,WallTickness]) union()
+	{
+		translate([42/2,-1,42/2]) rotate([270,0,0]) cylinder (h = WallTickness + 2 , r=22.7/2);
+		translate([21-15.5,-1,21-15.5]) rotate([270,0,0]) cylinder (h = WallTickness + 2 , r=1.75);
+		translate([21+15.5,-1,21-15.5]) rotate([270,0,0]) cylinder (h = WallTickness + 2 , r=1.75);
+		translate([21-15.5,-1,21+15.5]) rotate([270,0,0]) cylinder (h = WallTickness + 2 , r=1.75);
+		translate([21+15.5,-1,21+15.5]) rotate([270,0,0]) cylinder (h = WallTickness + 2 , r=1.75);
+	}
+	
+}	
