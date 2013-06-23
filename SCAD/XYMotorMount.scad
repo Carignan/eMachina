@@ -12,7 +12,7 @@ MidPulleyHeight = 19;
 DistanceMidPulleyToMidShaft = 42;
 MidShaftHeight = MidPulleyHeight + DistanceMidPulleyToMidShaft;
 TotalHeight = MidPulleyHeight + DistanceMidPulleyToMidShaft + WallTickness+6;
-
+RenderWireTube = 1;
 difference () 
 {
 	union()
@@ -26,6 +26,13 @@ difference ()
 		translate([42+WallTickness,0,0]) rotate([0,270,0]) triangle(TotalHeight, 46, 4);
 		translate([42,0,0]) cube([WallTickness,TotalHeight,WallTickness]);
 		translate([42,0,0]) cube([WallTickness,WallTickness,42+WallTickness]);
+	
+		if ( RenderWireTube )
+		{
+			translate([-WallTickness-20 ,0,0]) cube( [20,8,20]);
+			translate([-WallTickness-20+10,-15,10]) rotate([270,0,0])cylinder (h =20, r=10);
+		}
+	
 	}
 
 	translate([42/2,MidShaftHeight,2]) cylinder (h = 15,r=4.2 ); 
@@ -34,6 +41,13 @@ difference ()
 	translate([7, TotalHeight-16,-1]) cylinder (h = WallTickness+2,r=2 ); 
 	translate([42-7, WallTickness+7,-1]) cylinder (h = WallTickness+2,r=2 ); 
 	translate([42-7, TotalHeight-16,-1]) cylinder (h = WallTickness+2,r=2 ); 
+	
+	if ( RenderWireTube )
+	{
+		translate([-WallTickness-20/2-4/2 ,-16,10]) cube( [4,27,11]);
+		translate([-WallTickness-20+10,-16,10]) rotate([270,0,0])cylinder (h =25, r=6);
+	}
+
 }
 
 
